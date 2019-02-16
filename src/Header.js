@@ -122,6 +122,8 @@ const Header = React.createClass({
         sortDirection={this.props.sortDirection}
         onSort={this.props.onSort}
         onScroll={this.props.onScroll}
+        selectAllHandleSelect={this.props.selectAllHandleSelect}
+        enableRowSelect={this.props.enableRowSelect}
         getValidFilterValues={this.props.getValidFilterValues}
         />);
     });

@@ -114,7 +114,10 @@ const HeaderRow = React.createClass({
       let column = this.getColumn(this.props.columns, i);
       let _renderer = this.getHeaderRenderer(column);
       if (column.key === 'select-row' && this.props.rowType === 'filter') {
-        _renderer = <div></div>;
+        _renderer = this.props.enableRowSelect === 'single' ? <div></div> : (<div className="react-grid-checkbox-container">
+        <input className="react-grid-checkbox" type="checkbox" name="select-all-checkbox" id="select-all-checkbox" onChange={this.props.selectAllHandleSelect} />
+        <label htmlFor="select-all-checkbox" className="react-grid-checkbox-label"></label>
+      </div>)
       }
       let HeaderCell = column.draggable ? this.props.draggableHeaderCell : BaseHeaderCell;
       let cell = (

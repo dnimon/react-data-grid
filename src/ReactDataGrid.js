@@ -824,7 +824,7 @@ const ReactDataGrid = React.createClass({
     let unshiftedCols = {};
     if (this.props.rowActionsCell || (props.enableRowSelect && !this.props.rowSelection) || (props.rowSelection && props.rowSelection.showCheckbox !== false)) {
       let headerRenderer = props.enableRowSelect === 'single' ? null :
-      <div className="react-grid-checkbox-container">
+      <div style={{display: "none"}} className="react-grid-checkbox-container">
         <input className="react-grid-checkbox" type="checkbox" name="select-all-checkbox" id="select-all-checkbox" onChange={this.handleCheckboxChange} />
         <label htmlFor="select-all-checkbox" className="react-grid-checkbox-label"></label>
       </div>;
@@ -934,6 +934,8 @@ const ReactDataGrid = React.createClass({
             onColumnResize={this.onColumnResize}
             rowScrollTimeout={this.props.rowScrollTimeout}
             contextMenu={this.props.contextMenu}
+            selectAllHandleSelect={this.handleCheckboxChange}
+            enableRowSelect={this.props.enableRowSelect}
             overScan={this.props.overScan} />
           </div>
         </div>
