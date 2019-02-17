@@ -65,20 +65,37 @@ const HeaderRow = React.createClass({
     return HeaderCellType.NONE;
   },
 
-  getFilterableHeaderCell(column) {
+  getFilterableHeaderCell(column, i) {
     let FilterRenderer = FilterableHeaderCell;
     if (column.filterRenderer !== undefined) {
       FilterRenderer = column.filterRenderer;
     }
-    return <FilterRenderer {...this.props} onChange={this.props.onFilterChange} />;
+    const tmpRenderer = <FilterRenderer ref={input => {
+      this.props.newFilterRenderer(input, i);
+    }} {...this.props} onChange={this.props.onFilterChange} />;
+    return tmpRenderer;
   },
 
-  getSortableHeaderCell(column) {
+  onMouseEnter(i) {
+    this.props.onMouseEnter(i);
+  },
+
+  onMouseLeave(i) {
+    this.props.onMouseLeave(i);
+  },
+
+  getSortableHeaderCell(column, i) {
     let sortDirection = (this.props.sortColumn === column.key) ? this.props.sortDirection : SortableHeaderCell.DEFINE_SORT.NONE;
-    return <SortableHeaderCell columnKey={column.key} onSort={this.props.onSort} sortDirection={sortDirection}/>;
+    const headerCell = <SortableHeaderCell ref={input => {
+      this.props.newSortRenderer(input, i);
+    }} columnKey={column.key} onSort={this.props.onSort} i={i} sortDirection={sortDirection} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave} />;
+
+    this.props.newSortRenderer(headerCell, i);
+
+    return headerCell;
   },
 
-  getHeaderRenderer(column) {
+  getHeaderRenderer(column, i) {
     let renderer;
     if (column.headerRenderer && !this.props.filterable) {
       renderer = column.headerRenderer;
@@ -86,10 +103,10 @@ const HeaderRow = React.createClass({
       let headerCellType = this.getHeaderCellType(column);
       switch (headerCellType) {
       case HeaderCellType.SORTABLE:
-        renderer = this.getSortableHeaderCell(column);
+        renderer = this.getSortableHeaderCell(column, i);
         break;
       case HeaderCellType.FILTERABLE:
-        renderer = this.getFilterableHeaderCell(column);
+        renderer = this.getFilterableHeaderCell(column, i);
         break;
       default:
         break;
@@ -112,7 +129,7 @@ const HeaderRow = React.createClass({
     let lockedCells = [];
     for (let i = 0, len = this.getSize(this.props.columns); i < len; i++) {
       let column = this.getColumn(this.props.columns, i);
-      let _renderer = this.getHeaderRenderer(column);
+      let _renderer = this.getHeaderRenderer(column, i);
       if (column.key === 'select-row' && this.props.rowType === 'filter') {
         _renderer = this.props.enableRowSelect === 'single' ? <div></div> : (<div className="react-grid-checkbox-container">
         <input className="react-grid-checkbox" type="checkbox" name="select-all-checkbox" id="select-all-checkbox" onChange={this.props.selectAllHandleSelect} />

@@ -55,8 +55,18 @@ const Header = React.createClass({
     let state = this.state.resizing || this.props;
 
     let pos = this.getColumnPosition(column);
+    const columnLength = this.getColumnMetrics().columns.length;
+    let rightPos = pos <= columnLength ? pos + 1: pos;
 
     if (pos != null) {
+      if(this.state && !this.state.currentlyResizing) {
+        for(let stateKey in this.state) {
+          if(stateKey.indexOf("sortRefs") !== -1 || stateKey.indexOf("filterRefs") !== -1 && stateKey.indexOf(rightPos) != -1) {
+            this.state[stateKey].handleDraggingEvent(true);
+          }
+        }
+      }
+      
       let resizing = {
         columnMetrics: shallowCloneObject(state.columnMetrics)
       };
@@ -70,13 +80,53 @@ const Header = React.createClass({
 
       resizing.column = ColumnUtils.getColumn(resizing.columnMetrics.columns, pos);
       this.setState({resizing});
+      this.setState({currentlyResizing: true});
     }
   },
 
   onColumnResizeEnd(column: Column, width: number) {
     let pos = this.getColumnPosition(column);
+
+    if(this.state) {
+      for(let stateKey in this.state) {
+        if(stateKey.indexOf("sortRefs") !== -1 || stateKey.indexOf("filterRefs") !== -1) {
+          this.state[stateKey].handleDraggingEvent(false);
+        }
+      }
+    }
+
     if (pos !== null && this.props.onColumnResize) {
       this.props.onColumnResize(pos, width || column.width);
+    }
+
+    this.setState({currentlyResizing: false});
+  },
+
+  newFilterRenderer(ref, i) {
+    let filterRefs = {};
+    filterRefs["filterRefs"+i] = ref;
+    this.setState(filterRefs);
+    //console.log("filterRefs", this.state);
+  }, 
+
+  newSortRenderer(ref, i) {
+    let sortRefs = {};
+    sortRefs["sortRefs"+i] = ref;
+    this.setState(sortRefs);
+    //console.log("sortRefs", this.state);
+  },
+
+  onMouseEnter(i) {
+    if(this.state && this.state.currentlyResizing) return;
+    if(this.state && this.state["filterRefs"+i]) {
+      this.state["filterRefs"+i].handleMouseEvent(true);
+    }
+  },
+
+  onMouseLeave(i) {
+    if(this.state && this.state.currentlyResizing) return;
+    if(this.state && this.state["filterRefs"+i]) {
+      this.state["filterRefs"+i].handleMouseEvent(false);
     }
   },
 
@@ -125,6 +175,10 @@ const Header = React.createClass({
         selectAllHandleSelect={this.props.selectAllHandleSelect}
         enableRowSelect={this.props.enableRowSelect}
         getValidFilterValues={this.props.getValidFilterValues}
+        newFilterRenderer={this.newFilterRenderer}
+        newSortRenderer={this.newSortRenderer}
+        onMouseEnter={this.onMouseEnter}
+        onMouseLeave={this.onMouseLeave}
         />);
     });
     return headerRows;

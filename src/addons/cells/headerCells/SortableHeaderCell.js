@@ -41,7 +41,7 @@ const SortableHeaderCell = React.createClass({
       DESC: '9660'
     };
 
-    if(this.state && this.state.mouseEnter && this.props.sortDirection === 'NONE') {
+    if(this.state && this.state.mouseEnter && !this.state.isDragging && this.props.sortDirection === 'NONE') {
       return String.fromCharCode(unicodeKeys['DESC']);
     }
 
@@ -49,11 +49,20 @@ const SortableHeaderCell = React.createClass({
   },
 
   onMouseEnter: function() {
+    if(this.state && this.state.isDragging) return;
+    this.props.onMouseEnter(this.props.i);
     this.setState({mouseEnter: true});
   },
 
   onMouseLeave: function() {
+    if(this.state && this.state.isDragging) return;
+    this.props.onMouseLeave(this.props.i);
     this.setState({mouseEnter: false});
+  },
+
+  handleDraggingEvent(isDragging) {
+    if(this.state && this.state.isDragging && isDragging) return;
+    this.setState({isDragging: isDragging});
   },
 
   render: function(): ?ReactElement {
@@ -70,12 +79,17 @@ const SortableHeaderCell = React.createClass({
       })
     }
 
+    const cursorPointerStyle = {};
+    if(!this.state || (this.state && !this.state.isDragging)) {
+      cursorPointerStyle["cursor"] = "pointer";
+    }
+
     return (
       <div className={className}
         onClick={this.onClick}
         onMouseEnter={this.onMouseEnter}
         onMouseLeave={this.onMouseLeave}
-        style={{cursor: 'pointer'}}>
+        style={cursorPointerStyle}>
         {this.props.column.name}
         <span className="pull-right">{this.getSortByText()}</span>
       </div>

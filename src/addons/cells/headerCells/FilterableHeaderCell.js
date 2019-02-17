@@ -18,13 +18,30 @@ const FilterableHeaderCell = React.createClass({
     this.props.onChange({filterTerm: val, column: this.props.column});
   },
 
+  handleMouseEvent(mouseEnter) {
+    if(this.state.isDragging) return;
+    this.setState({mouseEnter: mouseEnter});
+  },
+
+  handleDraggingEvent(isDragging) {
+    this.setState({isDragging: isDragging});
+  },
+
   renderInput: function(): ?ReactElement {
     if (this.props.column.filterable === false) {
       return <span/>;
     }
 
+    const renderStyle = {};
+    let tmpClassName = 'form-control input-sm';
+
+    if(this.state.mouseEnter && !this.state.isDragging) {
+      renderStyle["width"] = "90%";
+      tmpClassName += ' mouseHoverSearch';
+    }
+
     let inputKey = 'header-filter-' + this.props.column.key;
-    return (<input key={inputKey} type="text" className="form-control input-sm" placeholder="Search" value={this.state.filterTerm} onChange={this.handleChange}/>);
+    return (<input style={renderStyle} key={inputKey} type="text" className={tmpClassName} placeholder="Search" value={this.state.filterTerm} onChange={this.handleChange}/>);
   },
 
   render: function(): ?ReactElement {
