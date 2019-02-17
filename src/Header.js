@@ -9,6 +9,7 @@ const getScrollbarSize  = require('./getScrollbarSize');
 const PropTypes           = React.PropTypes;
 const createObjectWithProperties = require('./createObjectWithProperties');
 const cellMetaDataShape    = require('./PropTypeShapes/CellMetaDataShape');
+let currentlyResizing = false;
 
 type Column = {
   width: number
@@ -59,7 +60,7 @@ const Header = React.createClass({
     let rightPos = pos <= columnLength ? pos + 1: pos;
 
     if (pos != null) {
-      if(this.state && !this.state.currentlyResizing) {
+      if(!currentlyResizing) {
         for(let stateKey in this.state) {
           if(stateKey.indexOf("sortRefs") !== -1 || stateKey.indexOf("filterRefs") !== -1 && stateKey.indexOf(rightPos) != -1) {
             this.state[stateKey].handleDraggingEvent(true);
@@ -80,7 +81,7 @@ const Header = React.createClass({
 
       resizing.column = ColumnUtils.getColumn(resizing.columnMetrics.columns, pos);
       this.setState({resizing});
-      this.setState({currentlyResizing: true});
+      currentlyResizing = true;
     }
   },
 
@@ -99,10 +100,11 @@ const Header = React.createClass({
       this.props.onColumnResize(pos, width || column.width);
     }
 
-    this.setState({currentlyResizing: false});
+    currentlyResizing = false;
   },
 
   newFilterRenderer(ref, i) {
+    if(this.state.resizing) return;
     let filterRefs = {};
     filterRefs["filterRefs"+i] = ref;
     this.setState(filterRefs);
@@ -110,6 +112,7 @@ const Header = React.createClass({
   }, 
 
   newSortRenderer(ref, i) {
+    if(this.state.resizing) return;
     let sortRefs = {};
     sortRefs["sortRefs"+i] = ref;
     this.setState(sortRefs);
@@ -117,14 +120,14 @@ const Header = React.createClass({
   },
 
   onMouseEnter(i) {
-    if(this.state && this.state.currentlyResizing) return;
+    if(currentlyResizing) return;
     if(this.state && this.state["filterRefs"+i]) {
       this.state["filterRefs"+i].handleMouseEvent(true);
     }
   },
 
   onMouseLeave(i) {
-    if(this.state && this.state.currentlyResizing) return;
+    if(currentlyResizing) return;
     if(this.state && this.state["filterRefs"+i]) {
       this.state["filterRefs"+i].handleMouseEvent(false);
     }

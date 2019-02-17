@@ -24,7 +24,14 @@ const FilterableHeaderCell = React.createClass({
   },
 
   handleDraggingEvent(isDragging) {
+    if(this.state.isDragging && isDragging) return;
     this.setState({isDragging: isDragging});
+  },
+
+  renderExpand() {
+    if(this.state.mouseEnter && !this.state.isDragging) {
+      return (<img src={'/images/table-expand.svg'} className="tableExpandShow" />);
+    }
   },
 
   renderInput: function(): ?ReactElement {
@@ -36,11 +43,12 @@ const FilterableHeaderCell = React.createClass({
     let tmpClassName = 'form-control input-sm';
 
     if(this.state.mouseEnter && !this.state.isDragging) {
-      renderStyle["width"] = "90%";
-      tmpClassName += ' mouseHoverSearch';
+      renderStyle["width"] = "calc(100% - 10px)";
+      renderStyle["display"] = "inline-block";
     }
 
     let inputKey = 'header-filter-' + this.props.column.key;
+
     return (<input style={renderStyle} key={inputKey} type="text" className={tmpClassName} placeholder="Search" value={this.state.filterTerm} onChange={this.handleChange}/>);
   },
 
@@ -49,6 +57,7 @@ const FilterableHeaderCell = React.createClass({
       <div>
         <div className="form-group">
           {this.renderInput()}
+          {this.renderExpand()}
         </div>
       </div>
     );
