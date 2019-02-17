@@ -1,27 +1,40 @@
 {
-  "name": "react-data-grid",
-  "version": "1.0.85",
-  "description": "Data grid for React",
-  "main": "src/index.js",
-  "scripts": {
-    "test": "gulp test",
-    "prepublish": "gulp dist --release true",
-    "debug-test": "gulp test --debug true",
-    "examples": "gulp"
+  "_from": "react-data-grid@1.0.75",
+  "_id": "react-data-grid@1.0.75",
+  "_inBundle": false,
+  "_integrity": "sha1-1Y0odVaT/oE4FMBFafUeKNMYQiY=",
+  "_location": "/react-data-grid",
+  "_phantomChildren": {
+    "core-js": "1.2.7",
+    "loose-envify": "1.4.0",
+    "promise": "7.3.1",
+    "ua-parser-js": "0.7.19"
   },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/adazzle/react-data-grid.git"
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "react-data-grid@1.0.75",
+    "name": "react-data-grid",
+    "escapedName": "react-data-grid",
+    "rawSpec": "1.0.75",
+    "saveSpec": null,
+    "fetchSpec": "1.0.75"
   },
-  "keywords": [
-    "react",
-    "grid",
-    "react-component"
+  "_requiredBy": [
+    "#USER",
+    "/"
   ],
-  "peerDependencies": {
-    "react": "~0.14.6",
-    "react-dom": "~0.14.6"
+  "_resolved": "https://registry.npmjs.org/react-data-grid/-/react-data-grid-1.0.75.tgz",
+  "_shasum": "d58d28755693fe813814c04569f51e28d3184226",
+  "_spec": "react-data-grid@1.0.75",
+  "_where": "/home/vagrant/code",
+  "author": {
+    "name": "adazzle"
   },
+  "bugs": {
+    "url": "https://github.com/adazzle/react-data-grid/issues"
+  },
+  "bundleDependencies": false,
   "dependencies": {
     "classnames": "^1.2.0",
     "es5-shim": "^4.0.3",
@@ -35,6 +48,8 @@
     "reselect": "^2.5.1",
     "ron-react-autocomplete": "^3.0.0"
   },
+  "deprecated": false,
+  "description": "Data grid for React",
   "devDependencies": {
     "avcoveralls": "^1.0.0",
     "babel-core": "^6.7.4",
@@ -97,10 +112,10 @@
     "object-assign": "^2.1.1",
     "pretty-hrtime": "^0.2.1",
     "react": "~0.14.6",
+    "react-addons-perf": "^0.14.8",
     "react-addons-shallow-compare": "^0.14.8",
     "react-addons-test-utils": "^0.14.6",
     "react-addons-transition-group": "^0.14.8",
-    "react-addons-perf": "^0.14.8",
     "react-dnd-test-backend": "^1.0.2",
     "react-docgen": "^2.8.2",
     "react-dom": "~0.14.6",
@@ -112,10 +127,28 @@
     "vinyl-source-stream": "^0.1.1",
     "webpack": "^1.12.10"
   },
-  "author": "adazzle",
+  "homepage": "https://github.com/adazzle/react-data-grid",
+  "keywords": [
+    "react",
+    "grid",
+    "react-component"
+  ],
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/adazzle/react-data-grid/issues"
+  "main": "src/index.js",
+  "name": "react-data-grid",
+  "peerDependencies": {
+    "react": "~0.14.6",
+    "react-dom": "~0.14.6"
   },
-  "homepage": "https://github.com/adazzle/react-data-grid"
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/adazzle/react-data-grid.git"
+  },
+  "scripts": {
+    "debug-test": "gulp test --debug true",
+    "examples": "gulp",
+    "prepublish": "gulp dist --release true",
+    "test": "gulp test"
+  },
+  "version": "1.0.75"
 }
