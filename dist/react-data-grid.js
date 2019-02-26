@@ -3143,6 +3143,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      headerRows.push(React.createElement(HeaderRow, {
 	        key: row.ref,
 	        ref: row.ref,
+	        rowIndex: index,
 	        rowType: row.rowType,
 	        style: headerRowStyle,
 	        onColumnResize: _this.onColumnResize,
@@ -3481,6 +3482,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      renderer = column.headerRenderer;
 	    } else {
 	      var headerCellType = this.getHeaderCellType(column);
+	      if (this.props.rowIndex == 1 && headerCellType == HeaderCellType.SORTABLE) {
+	        headerCellType = null;
+	        renderer = React.createElement('div', null);
+	      }
 	      switch (headerCellType) {
 	        case HeaderCellType.SORTABLE:
 	          renderer = this.getSortableHeaderCell(column, i);
