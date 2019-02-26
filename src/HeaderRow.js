@@ -101,6 +101,10 @@ const HeaderRow = React.createClass({
       renderer = column.headerRenderer;
     } else {
       let headerCellType = this.getHeaderCellType(column);
+      if(this.props.rowIndex == 1 && headerCellType == HeaderCellType.SORTABLE) {
+        headerCellType = null;
+        renderer = <div></div>;
+      }
       switch (headerCellType) {
       case HeaderCellType.SORTABLE:
         renderer = this.getSortableHeaderCell(column, i);
