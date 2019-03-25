@@ -90,7 +90,7 @@ const HeaderRow = React.createClass({
       this.props.newSortRenderer(input, i);
     }} columnKey={column.key} onSort={this.props.onSort} i={i} sortDirection={sortDirection} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave} />;
 
-    this.props.newSortRenderer(headerCell, i);
+    //this.props.newSortRenderer(headerCell, i);
 
     return headerCell;
   },
