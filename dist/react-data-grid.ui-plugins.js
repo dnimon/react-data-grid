@@ -219,7 +219,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 
 	if (false) {
-	  var ReactIs = require('react-is');
+	  //var ReactIs = require('react-is');
 
 	  // By explicitly using `prop-types` you are opting into new development behavior.
 	  // http://fb.me/prop-types-in-prod
